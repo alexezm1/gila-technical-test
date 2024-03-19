@@ -1,17 +1,18 @@
-import { Post } from "../lib/definitions";
+import type { Post } from "../types";
 import Card from "./Card";
 
 // Create type for PostItem Component Props
 // that accepts a type Post
-type PostItemProps = {
+type PostProps = {
   post: Post;
 };
 
-function PostItem({ post }: PostItemProps) {
+function PostItem({ post }: PostProps) {
+  const { title, body } = post;
   return (
     <Card>
-      <div className="text-md font-bold uppercase">{post.title}</div>
-      <div className="text-md mt-1">{post.body}</div>
+      <div className="text-md font-bold uppercase">{title}</div>
+      <div className="text-md mt-1">{body}</div>
     </Card>
   );
 }
