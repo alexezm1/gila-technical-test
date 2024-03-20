@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { Post } from "../types";
 import PostItem from "./PostItem";
@@ -24,18 +24,18 @@ function DataFetcher() {
     fetchData();
   }, []); // Fetch data once so we leave dependency array empty
 
+  // Memoize posts so PostItem components are not recalculated when theme switches between light and dark theme
+  const memoizedPosts = useMemo(
+    () => posts.map((post: Post) => <PostItem post={post} key={post.id} />),
+    [posts]
+  );
+
   // Show loading spinner after posts state has been updated with the
   // fetched data
   if (loading) {
     return <Spinner />;
   }
 
-  return (
-    <div>
-      {posts.map((post: Post) => (
-        <PostItem post={post} key={post.id} />
-      ))}
-    </div>
-  );
+  return <div>{memoizedPosts}</div>;
 }
 export default DataFetcher;
